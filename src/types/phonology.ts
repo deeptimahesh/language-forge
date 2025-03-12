@@ -6,6 +6,7 @@ export interface IpaSymbol {
   type: 'consonant' | 'vowel';
   features?: PhoneticFeatures;
   selected?: boolean;
+  audioUrl?: string; // URL to the audio file for this phoneme
 }
 
 // Consonant features
@@ -50,7 +51,11 @@ export enum MannerOfArticulation {
   LateralFricative = 'lateral fricative',
   Approximant = 'approximant',
   LateralApproximant = 'lateral approximant',
-  Affricate = 'affricate'
+  Affricate = 'affricate',
+  Click = 'click',
+  Implosive = 'implosive',
+  Ejective = 'ejective',
+  Other = 'other'
 }
 
 // Enum for vowel height
