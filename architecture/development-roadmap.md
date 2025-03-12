@@ -1,6 +1,7 @@
 # Language Forge: Development Roadmap
 
-This document outlines the phased development plan for Language Forge, including priorities, milestones, and feature rollout strategy.
+This document outlines the phased development plan for Language Forge, including
+priorities,milestones, and feature rollout strategy.
 
 ## 1. Development Phases Overview
 

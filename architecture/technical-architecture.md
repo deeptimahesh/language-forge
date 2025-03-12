@@ -10,7 +10,7 @@ Language Forge will follow a modern web application architecture with:
 - **Data Storage**: MongoDB for flexible schema storage
 - **State Management**: Combination of server-side and client-side state
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
 │                    Language Forge System                    │
@@ -48,7 +48,7 @@ Language Forge will follow a modern web application architecture with:
 
 ### Component Structure
 
-```
+```bash
 src/
 ├── app/                  # App Router structure
 │   ├── page.tsx          # Landing page
@@ -83,7 +83,7 @@ src/
 
 ### API Structure
 
-```
+```bash
 src/
 ├── app/
 │   └── api/              # API routes
@@ -169,7 +169,7 @@ interface LexiconModule {
 
 ### LangChain Framework
 
-```
+```bash
 ┌────────────────────────────────────────────────────────────┐
 │                                                            │
 │                  Language Forge AI System                  │
@@ -225,7 +225,7 @@ interface LexiconModule {
 
 ### LangChain Integration Code Structure
 
-```
+```bash
 src/
 ├── ai/
 │   ├── agents/           # Agent definitions

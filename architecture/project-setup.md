@@ -1,6 +1,7 @@
 # Language Forge: Project Setup
 
-This document provides instructions for setting up the Language Forge development environment and getting started with the project.
+This document provides instructions for setting up the Language Forge development
+environment and getting started with the project.
 
 ## 1. Prerequisites
 
@@ -39,7 +40,7 @@ yarn
 
 Create a `.env.local` file in the root directory with the following variables:
 
-```
+```bash
 # Application
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 
@@ -69,7 +70,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ## 3. Project Structure Overview
 
-```
+```bash
 language-forge/
 ├── src/                        # Source code
 │   ├── app/                    # Next.js App Router
@@ -145,7 +146,8 @@ mongosh
 
 ### 5.2 Database Initialization
 
-The application will create collections automatically as needed. You can also manually set up the database:
+The application will create collections automatically as needed. You can also
+manually set up the database:
 
 ```javascript
 // In MongoDB shell
@@ -174,7 +176,7 @@ yarn test:ai
 
 The project uses LangChain for agent orchestration. Customize agent behavior in:
 
-```
+```bash
 src/ai/agents/
 src/ai/chains/
 src/ai/prompts/

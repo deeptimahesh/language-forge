@@ -2,7 +2,8 @@
 
 ## 1. Overview
 
-Language Forge requires structured data models to represent the various components of constructed languages. These models need to:
+Language Forge requires structured data models to represent the various
+components of constructed languages. These models need to:
 
 - Capture linguistic complexity while maintaining usability
 - Support progressive building of language features
@@ -567,7 +568,9 @@ const ProjectSchema = new mongoose.Schema({
     morphology: { type: mongoose.Schema.Types.ObjectId, ref: 'MorphologyModule' },
     syntax: { type: mongoose.Schema.Types.ObjectId, ref: 'SyntaxModule' },
     culture: { type: mongoose.Schema.Types.ObjectId, ref: 'CultureModule' },
-    orthography: { type: mongoose.Schema.Types.ObjectId, ref: 'OrthographyModule' }
+    orthography: {
+      type: mongoose.Schema.Types.ObjectId, ref: 'OrthographyModule'
+    }
   },
   versions: [{
     name: String,
@@ -592,7 +595,8 @@ export default Project;
 
 The data models must maintain relational integrity across the language components:
 
-1. **Cross-Module Consistency**: Changes in phonology should cascade to lexicon, etc.
+1. **Cross-Module Consistency**: Changes in phonology should cascade to
+lexicon, etc.
 2. **Versioning**: Version tracking to allow safe experimentation
 3. **Reference Tracking**: Proper references between related objects
 4. **Validation**: Schema validation to ensure linguistic coherence

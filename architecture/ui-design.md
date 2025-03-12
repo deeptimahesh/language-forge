@@ -16,7 +16,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Header & Navigation
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  ┌──────────────┐             Language Forge             ┌───┐  │
@@ -32,7 +32,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Project Dashboard
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  Elvish Language Project                                ■ □ ×   │
@@ -66,7 +66,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Language Profile Creator
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  Create Your Language Profile                                   │
@@ -113,7 +113,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Phonology Module UI
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  Phonology Creator: Elvish Language                             │
@@ -152,7 +152,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Lexicon Generator UI
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
 │  Lexicon Creator: Elvish Language                               │
@@ -203,7 +203,7 @@ Language Forge's interface is designed around these core principles:
 
 #### IPA Chart (Interactive Phonology Tool)
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
 │              Interactive IPA Chart                      │
@@ -246,7 +246,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Word Generator (Lexicon Tool)
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
 │              Word Generator                             │
@@ -291,7 +291,7 @@ Language Forge's interface is designed around these core principles:
 
 #### Grammar Builder (Morphology Tool)
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
 │              Grammar Builder                            │
@@ -408,7 +408,7 @@ Language Forge's interface is designed around these core principles:
 
 ### 4.1 Color Palette
 
-```
+```txt
 Primary Colors:
 - Deep Blue: #1A365D - Navigation, headers
 - Teal: #2C7A7B - Buttons, interactive elements
@@ -429,7 +429,7 @@ Semantic Colors:
 
 ### 4.2 Typography
 
-```
+```txt
 Font Families:
 - Headings: 'Montserrat', sans-serif
 - Body: 'Open Sans', sans-serif
@@ -448,7 +448,7 @@ Type Scale:
 
 ### 4.3 Components
 
-```
+```txt
 Buttons:
 - Primary: Teal bg, white text, rounded
 - Secondary: White bg, teal border, teal text
@@ -471,7 +471,7 @@ Forms:
 
 ### 5.1 Breakpoints
 
-```
+```txt
 - Mobile: 0-639px
 - Tablet: 640px-1023px
 - Desktop: 1024px+
@@ -479,7 +479,7 @@ Forms:
 
 ### 5.2 Layout Adjustments
 
-```
+```txt
 Mobile:
 - Single column layout
 - Stacked navigation

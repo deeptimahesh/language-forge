@@ -2,7 +2,10 @@
 
 ## 1. Project Overview
 
-**Language Forge** is an interactive application that guides users through creating constructed languages (conlangs) from scratch. The system walks users through a systematic language creation process while allowing customization at each step, enabling the creation of rich, culturally-contextualized fictional languages.
+**Language Forge** is an interactive application that guides users through creating
+constructed languages (conlangs) from scratch. The system walks users through a
+systematic language creation process while allowing customization at each step,
+enabling the creation of rich, culturally-contextualized fictional languages.
 
 ## 2. Core Workflow
 
@@ -61,7 +64,8 @@ The application follows a progressive language construction workflow:
 
 - **Guided Creation**: AI suggests options based on user inputs
 - **Free Customization**: Override AI suggestions at any point
-- **Natural Language Inputs**: Users describe what they want ("a language for forest-dwelling elves with a melodic quality")
+- **Natural Language Inputs**: Users describe what they want ("a language for
+forest-dwelling elves with a melodic quality")
 - **Contextual Help**: Linguistic concepts explained as encountered
 
 ## 4. AI Architecture

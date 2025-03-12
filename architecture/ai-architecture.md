@@ -2,9 +2,12 @@
 
 ## 1. LangChain Integration Overview
 
-Language Forge leverages LangChain to orchestrate a system of specialized AI agents that collaborate to generate linguistically coherent conlangs. The architecture follows these core principles:
+Language Forge leverages LangChain to orchestrate a system of specialized AI
+agents that collaborate to generate linguistically coherent conlangs.
+The architecture follows these core principles:
 
-1. **Agent Specialization**: Each aspect of language creation is handled by a specialized agent
+1. **Agent Specialization**: Each aspect of language creation is handled by a
+specialized agent
 2. **Knowledge Sharing**: Agents share context and build upon each other's outputs
 3. **User-Guided Generation**: AI suggestions can be modified or overridden by users
 4. **Consistency Enforcement**: Cross-validation between language components
@@ -221,7 +224,7 @@ const phonologyChain = RunnableSequence.from([
 
 The agents will be orchestrated in a sequential workflow with feedback loops:
 
-```
+```bash
 ┌─────────────────┐
 │                 │
 │   User Input    │
@@ -275,13 +278,15 @@ Each agent will use specialized prompts that incorporate linguistic expertise:
 
 ```typescript
 // Example: Phonology Generation Prompt
-const phonologySystemPrompt = `You are an expert linguistic phonologist specializing in constructed languages.
-Your task is to create a phonological system for a language with these characteristics:
+const phonologySystemPrompt = `You are an expert linguistic phonologist
+specializing in constructed languages. Your task is to create a phonological
+system for a language with these characteristics:
 
 {languageProfile}
 
-Consider articulatory constraints, aesthetic qualities, and cross-linguistic typological patterns.
-Provide your reasoning for each choice in a step-by-step manner.`;
+Consider articulatory constraints, aesthetic qualities,
+and cross-linguistic typological patterns. Provide your reasoning for each
+choice in a step-by-step manner.`;
 ```
 
 ## 6. Error Handling and Fallbacks
