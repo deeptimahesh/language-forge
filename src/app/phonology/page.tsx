@@ -1,8 +1,49 @@
-import React from 'react';
-import PhonemeSelector from '@/components/language/phonology/PhonemeSelector';
+'use client';
+
+import React, { useState, useCallback, useRef } from 'react';
+import PhonemeSelector, { PhonemeSelectorHandle } from '@/components/language/phonology/PhonemeSelector';
+import PhonologyAIChat from '@/components/language/phonology/PhonologyAIChat';
 
 export default function PhonologyPage() {
-  // Server component doesn't handle client-side events
+  const [selectedConsonants, setSelectedConsonants] = useState<string[]>(['p', 't', 'k', 'm', 'n']);
+  const [selectedVowels, setSelectedVowels] = useState<string[]>(['a', 'i', 'u']);
+  
+  // Reference to the PhonemeSelector component
+  const phonemeSelectorRef = useRef<PhonemeSelectorHandle>(null);
+  
+  const handlePhonemeSelectionChange = useCallback((consonants: string[], vowels: string[]) => {
+    setSelectedConsonants(consonants);
+    setSelectedVowels(vowels);
+  }, []);
+  
+  // Handle phoneme selection from the AI chat
+  const handleSelectPhoneme = useCallback((phoneme: string) => {
+    const isVowel = /[aeiouäëïöüɑɛɪʊɔæøyɨʉɯɤəɐɒœɶʌɜɞɘɵʊɵɪɪɔʊɛɪəʊɪə]/.test(phoneme);
+    
+    // Create new arrays to avoid directly modifying state
+    let newConsonants = [...selectedConsonants];
+    let newVowels = [...selectedVowels];
+    
+    if (isVowel) {
+      // If not already selected, add it
+      if (!newVowels.includes(phoneme)) {
+        newVowels.push(phoneme);
+        setSelectedVowels(newVowels);
+      }
+    } else {
+      // If not already selected, add it
+      if (!newConsonants.includes(phoneme)) {
+        newConsonants.push(phoneme);
+        setSelectedConsonants(newConsonants);
+      }
+    }
+    
+    // Update the PhonemeSelector component's state
+    if (phonemeSelectorRef.current) {
+      phonemeSelectorRef.current.togglePhoneme(phoneme);
+    }
+  }, [selectedConsonants, selectedVowels]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Phonology Module</h1>
@@ -31,8 +72,8 @@ export default function PhonologyPage() {
         </div>
       </div>
       
-      <div className="bg-white shadow-md rounded-lg p-6">
-        {/* Only pass data props, not function props */}
+      {/* Phoneme Selector Section */}
+      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <PhonemeSelector 
           initialConsonants={['p', 't', 'k', 'm', 'n']} 
           initialVowels={['a', 'i', 'u']}
@@ -40,7 +81,7 @@ export default function PhonologyPage() {
       </div>
       
       {/* Additional information section */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gray-50 p-4 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">About Audio Playback</h3>
           <p className="text-sm text-gray-700 mb-2">
@@ -67,6 +108,14 @@ export default function PhonologyPage() {
             <li>Generate example words</li>
             <li>Export your phonology for use in other modules</li>
           </ul>
+        </div>
+      </div>
+      
+      {/* AI Chat Window - Full width at bottom */}
+      <div className="w-full">
+        <h2 className="text-2xl font-semibold mb-4">Language Design Assistant</h2>
+        <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+          <PhonologyAIChat className="relative h-96 w-full rounded-none shadow-none border-0" />
         </div>
       </div>
     </div>
