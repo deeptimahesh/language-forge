@@ -79,11 +79,19 @@ export default function PhonologyPage() {
           initialVowels={['a', 'i', 'u']}
         />
       </div>
-      
+
+      {/* AI Chat Window - Full width at bottom */}
+      <div className="w-full">
+        <h2 className="text-2xl font-semibold mb-4">Language Design Assistant</h2>
+        <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+          <PhonologyAIChat className="relative h-96 w-full rounded-none shadow-none border-0" />
+        </div>
+      </div>
+
       {/* Additional information section */}
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">About Audio Playback</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-700">About Audio Playback</h3>
           <p className="text-sm text-gray-700 mb-2">
             Our audio is sourced from Wikimedia Commons:
           </p>
@@ -98,7 +106,7 @@ export default function PhonologyPage() {
         </div>
         
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">Next Steps</h3>
+          <h3 className="text-lg font-semibold mb-2 text-gray-700">Next Steps</h3>
           <p className="text-sm text-gray-700 mb-2">
             After selecting your phonemes, you'll be able to:
           </p>
@@ -110,14 +118,9 @@ export default function PhonologyPage() {
           </ul>
         </div>
       </div>
-      
-      {/* AI Chat Window - Full width at bottom */}
-      <div className="w-full">
-        <h2 className="text-2xl font-semibold mb-4">Language Design Assistant</h2>
-        <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
-          <PhonologyAIChat className="relative h-96 w-full rounded-none shadow-none border-0" />
-        </div>
-      </div>
+
     </div>
+
+    
   );
 } 

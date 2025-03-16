@@ -132,7 +132,7 @@ export default function PhonemeSelector({
 
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold mb-4">Phoneme Selection</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-700">Phoneme Selection</h2>
       
       {/* Hidden audio element for client-side JavaScript to use */}
       <audio id="phoneme-audio" className="hidden">
@@ -149,7 +149,7 @@ export default function PhonemeSelector({
       
       {/* Consonants Section */}
       <div className="mb-8">
-        <h3 className="text-xl font-semibold mb-2">Consonants</h3>
+        <h3 className="text-xl font-semibold mb-2 text-gray-700">Consonants</h3>
         
         {manners.map(manner => (
           <div key={manner} className="mb-6">
@@ -163,7 +163,7 @@ export default function PhonemeSelector({
       
       {/* Vowels Section */}
       <div>
-        <h3 className="text-xl font-semibold mb-2">Vowels</h3>
+        <h3 className="text-xl font-semibold mb-2 text-gray-700">Vowels</h3>
         <div className="flex flex-wrap gap-1 mb-6">
           {allVowels.map(vowel => renderVowelCell(vowel))}
         </div>
@@ -171,18 +171,18 @@ export default function PhonemeSelector({
       
       {/* Selected Phonemes Summary */}
       <div className="mt-8 p-4 bg-gray-50 rounded-md">
-        <h3 className="text-lg font-semibold mb-2">Selected Phonemes</h3>
+        <h3 className="text-lg font-semibold mb-2 text-gray-700">Selected Phonemes</h3>
         
         <div className="mb-4">
-          <h4 className="font-medium">Consonants ({initialConsonants.length})</h4>
-          <p className="text-lg tracking-wide" id="selected-consonants">
+          <h4 className="font-medium text-gray-700">Consonants ({initialConsonants.length})</h4>
+          <p className="text-lg tracking-wide text-gray-500" id="selected-consonants">
             {initialConsonants.join(' ')}
           </p>
         </div>
         
         <div>
-          <h4 className="font-medium">Vowels ({initialVowels.length})</h4>
-          <p className="text-lg tracking-wide" id="selected-vowels">
+          <h4 className="font-medium text-gray-700">Vowels ({initialVowels.length})</h4>
+          <p className="text-lg tracking-wide text-gray-500" id="selected-vowels">
             {initialVowels.join(' ')}
           </p>
         </div>
