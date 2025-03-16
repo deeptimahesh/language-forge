@@ -136,7 +136,7 @@ export default function PhonemeSelector({
       
       {/* Hidden audio element for client-side JavaScript to use */}
       <audio id="phoneme-audio" className="hidden">
-        <source id="phoneme-audio-source" src="" type="audio/mpeg" />
+        <source id="phoneme-audio-source" src={undefined} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       
