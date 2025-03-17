@@ -178,8 +178,8 @@ const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(
       
       {/* Hidden audio element for client-side JavaScript to use */}
       <audio id="phoneme-audio" className="hidden">
-        <source id="phon text-gray-500ce" src={undefined} type="audio/mpeg" />
-        Your browser does not support the audio element.
+        {/* Source will be added dynamically via JavaScript */}
+        <p>Your browser does not support the audio element.</p>
       </audio>
       
       <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-500 text-sm text-blue-800">
@@ -240,7 +240,10 @@ const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(
             
             // Set up audio element
             const audioElement = document.getElementById('phoneme-audio');
-            const audioSource = document.getElementById('phoneme-audio-source');
+            
+            if (!audioElement) {
+              console.error('Audio element not found');
+            }
             
             // Audio feedback functions
             ${getAudioFeedbackScript()}
@@ -304,12 +307,29 @@ const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(
                 // Show playing message
                 showAudioFeedback(\`Playing sound for "\${phoneme}"\`);
                 
+                if (!audioElement) {
+                  showAudioFeedback('Audio element not found', true);
+                  return;
+                }
+                
                 // Fetch audio URL from our API
                 fetch('/api/phoneme-audio?symbol=' + encodeURIComponent(phoneme))
                   .then(response => response.json())
                   .then(data => {
                     if (data.url) {
-                      audioSource.src = data.url;
+                      // Clear any existing sources
+                      const sources = audioElement.getElementsByTagName('source');
+                      while (sources.length > 0) {
+                        sources[0].parentNode.removeChild(sources[0]);
+                      }
+                      
+                      // Create and add new source element
+                      const sourceElement = document.createElement('source');
+                      sourceElement.src = data.url;
+                      sourceElement.type = 'audio/mpeg';
+                      audioElement.insertBefore(sourceElement, audioElement.firstChild);
+                      
+                      console.log('Setting audio source to:', data.url);
                       audioElement.load();
                       
                       const playPromise = audioElement.play();
@@ -327,6 +347,7 @@ const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(
                         setTimeout(hideAudioFeedback, 1500);
                       };
                     } else if (data.error) {
+                      console.error('Audio API error:', data.error);
                       showAudioFeedback(data.error, true);
                     } else {
                       showAudioFeedback(\`No audio available for "\${phoneme}"\`, true);

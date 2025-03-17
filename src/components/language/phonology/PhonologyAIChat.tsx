@@ -165,7 +165,7 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
               </div>
             </div>
             
-            {/* Phoneme suggestions */}
+            {/* Phoneme suggestions as separate buttons */}
             {message.suggestedPhonemes && message.suggestedPhonemes.length > 0 && (
               <div className={`flex flex-wrap gap-1 mt-2 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {message.suggestedPhonemes.map((phoneme) => (
@@ -222,7 +222,7 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Describe your language..."
-            className="flex-1 border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="flex-1 border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-800"
             disabled={isLoading}
           />
           <button

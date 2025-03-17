@@ -79,16 +79,61 @@ export class PhonologyChain {
 
   // Extract phonemes from AI response
   private extractPhonemes(text: string): string[] {
-    // Simple regex pattern to find IPA symbols
-    // This is a basic implementation - could be improved
-    const phonemePattern = /[pbtdkgqʔmnŋfvθðszʃʒçxɣhɬɮrɾljwʋɹiɨʉɯuyeøɘɵɤoɛœɜɞʌɔæaɑɒ]+/g;
-    const matches = text.match(phonemePattern) || [];
+    // Define individual IPA symbols to match exactly
+    const consonants = ['p', 'b', 't', 'd', 'k', 'g', 'q', 'ʔ', 'm', 'n', 'ŋ', 'f', 'v', 'θ', 'ð', 
+                         's', 'z', 'ʃ', 'ʒ', 'ç', 'x', 'ɣ', 'h', 'ɬ', 'ɮ', 'r', 'ɾ', 'l', 'j', 'w', 'ʋ', 'ɹ'];
     
-    // Filter for standalone IPA symbols (not parts of words)
-    return [...new Set(matches.filter(match => 
-      // Filter out English words that might contain these characters
-      !/^(a|an|the|this|that|these|those|is|was|be|been|being|am|are|were|have|has|had|do|does|did|can|could|will|would|shall|should|may|might|must)$/i.test(match)
-    ))];
+    const vowels = ['i', 'y', 'ɨ', 'ʉ', 'ɯ', 'u', 'e', 'ø', 'ɘ', 'ɵ', 'ɤ', 'o', 'ɛ', 'œ', 'ɜ', 'ɞ', 
+                      'ʌ', 'ɔ', 'æ', 'a', 'ɑ', 'ɒ'];
+    
+    // Create a set of all valid IPA symbols
+    const validIpaSymbols = new Set([...consonants, ...vowels]);
+    
+    // Common English words that contain letters shared with IPA
+    const englishWords = new Set(['a', 'an', 'the', 'this', 'that', 'these', 'those', 'is', 'was', 'be', 'been', 
+                                  'being', 'am', 'are', 'were', 'have', 'has', 'had', 'do', 'does', 'did', 
+                                  'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+                                  'and', 'or', 'for', 'with', 'in', 'on', 'at', 'to', 'from', 'by']);
+    
+    // Find potential phonemes in the text - look for symbols that are likely to be IPA
+    // We'll check for single characters and specific multi-character IPA symbols
+    const phonemeMatches = new Set<string>();
+    
+    // First pass: extract IPA symbols bounded by special formatting
+    // Check for symbols in brackets, quotes, or with surrounding spaces/punctuation 
+    const formattedSymbolPattern = /[\[\("]([pbtdkgqʔmnŋfvθðszʃʒçxɣhɬɮrɾljwʋɹiɨʉɯuyeøɘɵɤoɛœɜɞʌɔæaɑɒ])[\]\)"]|(?:^|\s)([pbtdkgqʔmnŋfvθðszʃʒçxɣhɬɮrɾljwʋɹiɨʉɯuyeøɘɵɤoɛœɜɞʌɔæaɑɒ])(?=$|\s|[,.;:!?])/g;
+    
+    let match;
+    while ((match = formattedSymbolPattern.exec(text)) !== null) {
+      const symbol = match[1] || match[2];
+      if (validIpaSymbols.has(symbol) && !englishWords.has(symbol.toLowerCase())) {
+        phonemeMatches.add(symbol);
+      }
+    }
+    
+    // Second pass: look for IPA symbols that appear in lists separated by commas or other delimiters
+    const listPattern = /(?:^|\s|,|;|:|\()([pbtdkgqʔmnŋfvθðszʃʒçxɣhɬɮrɾljwʋɹiɨʉɯuyeøɘɵɤoɛœɜɞʌɔæaɑɒ]{1,2})(?=$|\s|,|;|:|\.|\))/g;
+    
+    while ((match = listPattern.exec(text)) !== null) {
+      const potentialSymbol = match[1];
+      if (
+        validIpaSymbols.has(potentialSymbol) && 
+        !englishWords.has(potentialSymbol.toLowerCase())
+      ) {
+        phonemeMatches.add(potentialSymbol);
+      }
+    }
+    
+    // For multi-character IPA symbols, we need a special check
+    const multiCharSymbols = ['ʃ', 'ʒ', 'θ', 'ð', 'ŋ', 'ɣ', 'ɬ', 'ɮ', 'ɾ', 'ʋ', 'ɹ', 'ɨ', 'ʉ', 'ɯ', 'ø', 'ɘ', 'ɵ', 'ɤ', 'œ', 'ɜ', 'ɞ', 'ʌ', 'ɔ', 'æ', 'ɑ', 'ɒ'];
+    
+    multiCharSymbols.forEach(symbol => {
+      if (text.includes(symbol)) {
+        phonemeMatches.add(symbol);
+      }
+    });
+    
+    return Array.from(phonemeMatches);
   }
 
   // Process a message using the LangChain
