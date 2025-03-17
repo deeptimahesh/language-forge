@@ -17,7 +17,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Language Forge | Create Constructed Languages",
-  description: "Create beautiful constructed languages with AI-powered assistance. Perfect for worldbuilders, fiction writers, linguists, and language enthusiasts.",
+  description: "Create conlangs with AI-powered assistance. Perfect for worldbuilders, fiction writers, linguists, and language enthusiasts.",
   keywords: ["conlang", "constructed language", "worldbuilding", "linguistics", "language creation", "AI"],
 };
 

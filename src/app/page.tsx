@@ -5,7 +5,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <main className="flex-grow flex flex-col items-center justify-center text-center px-4 py-16 bg-gradient-to-b from-teal-50 to-white dark:from-slate-900 dark:to-slate-800">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-600">
+        <h1 className="text-4xl md:text-6xl font-bold pb-4 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-blue-600">
           Language Forge
         </h1>
         <p className="text-xl md:text-2xl mb-8 max-w-2xl text-slate-700 dark:text-slate-300">
@@ -43,7 +43,7 @@ export default function Home() {
             <div className="bg-white dark:bg-slate-700 p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-3 text-teal-600 dark:text-teal-400">Phonology</h3>
               <p className="text-slate-600 dark:text-slate-300 mb-4">
-                Design beautiful sound systems with interactive IPA charts and audio preview
+                Design a basic sound system with interactive IPA charts and audio preview
               </p>
               <Link
                 href="/phonology"
@@ -56,9 +56,15 @@ export default function Home() {
             {/* Feature 2 */}
             <div className="bg-white dark:bg-slate-700 p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-3 text-teal-600 dark:text-teal-400">Lexicon</h3>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-600 dark:text-slate-300 mb-4">
                 Generate vocabulary that follows your phonological patterns and etymological rules
               </p>
+              <Link
+                href="/lexicon"
+                className="inline-block px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition-colors"
+              >
+                Try Lexicon Module
+              </Link>
             </div>
             
             {/* Feature 3 */}

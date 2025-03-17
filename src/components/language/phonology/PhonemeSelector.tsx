@@ -178,7 +178,7 @@ const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(
       
       {/* Hidden audio element for client-side JavaScript to use */}
       <audio id="phoneme-audio" className="hidden">
-        {/* Source will be added dynamically via JavaScript */}
+        {/* Source added dynamically via JavaScript */}
         <p>Your browser does not support the audio element.</p>
       </audio>
       

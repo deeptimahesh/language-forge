@@ -40,7 +40,7 @@ function testAudioUrls() {
   });
 }
 
-// This would typically be run in a Node.js environment
+// Run in a Node.js environment
 // or browser console for testing purposes
 // testAudioUrls();
 
