@@ -118,13 +118,13 @@ export const consonantChart: Record<MannerOfArticulation, Record<PlaceOfArticula
   },
   [MannerOfArticulation.TapOrFlap]: {
     [PlaceOfArticulation.Labiodental]: [
-      createConsonant('ⱱ', 'labiodental flap', PlaceOfArticulation.Labiodental, MannerOfArticulation.TapOrFlap, true)
+      // createConsonant('ⱱ', 'labiodental flap', PlaceOfArticulation.Labiodental, MannerOfArticulation.TapOrFlap, true)
     ],
     [PlaceOfArticulation.Alveolar]: [
-      createConsonant('ɾ', 'alveolar tap', PlaceOfArticulation.Alveolar, MannerOfArticulation.TapOrFlap, true)
+      // createConsonant('ɾ', 'alveolar tap', PlaceOfArticulation.Alveolar, MannerOfArticulation.TapOrFlap, true)
     ],
     [PlaceOfArticulation.Retroflex]: [
-      createConsonant('ɽ', 'retroflex flap', PlaceOfArticulation.Retroflex, MannerOfArticulation.TapOrFlap, true)
+      // createConsonant('ɽ', 'retroflex flap', PlaceOfArticulation.Retroflex, MannerOfArticulation.TapOrFlap, true)
     ],
     // Empty placeholders for other places of articulation
     [PlaceOfArticulation.Bilabial]: [],
@@ -250,12 +250,12 @@ export const consonantChart: Record<MannerOfArticulation, Record<PlaceOfArticula
   },
   [MannerOfArticulation.Affricate]: {
     [PlaceOfArticulation.PostAlveolar]: [
-      createConsonant('tʃ', 'voiceless postalveolar affricate', PlaceOfArticulation.PostAlveolar, MannerOfArticulation.Affricate, false),
-      createConsonant('dʒ', 'voiced postalveolar affricate', PlaceOfArticulation.PostAlveolar, MannerOfArticulation.Affricate, true)
+      // createConsonant('tʃ', 'voiceless postalveolar affricate', PlaceOfArticulation.PostAlveolar, MannerOfArticulation.Affricate, false),
+      // createConsonant('dʒ', 'voiced postalveolar affricate', PlaceOfArticulation.PostAlveolar, MannerOfArticulation.Affricate, true)
     ],
     [PlaceOfArticulation.Alveolar]: [
-      createConsonant('ts', 'voiceless alveolar affricate', PlaceOfArticulation.Alveolar, MannerOfArticulation.Affricate, false),
-      createConsonant('dz', 'voiced alveolar affricate', PlaceOfArticulation.Alveolar, MannerOfArticulation.Affricate, true)
+      // createConsonant('ts', 'voiceless alveolar affricate', PlaceOfArticulation.Alveolar, MannerOfArticulation.Affricate, false),
+      // createConsonant('dz', 'voiced alveolar affricate', PlaceOfArticulation.Alveolar, MannerOfArticulation.Affricate, true)
     ],
     // Empty placeholders for other places
     [PlaceOfArticulation.Bilabial]: [],
@@ -270,17 +270,17 @@ export const consonantChart: Record<MannerOfArticulation, Record<PlaceOfArticula
   },
   [MannerOfArticulation.Click]: {
     [PlaceOfArticulation.Bilabial]: [
-      createConsonant('ʘ', 'bilabial click', PlaceOfArticulation.Bilabial, MannerOfArticulation.Click, false)
+      // createConsonant('ʘ', 'bilabial click', PlaceOfArticulation.Bilabial, MannerOfArticulation.Click, false)
     ],
     [PlaceOfArticulation.Dental]: [
-      createConsonant('ǀ', 'dental click', PlaceOfArticulation.Dental, MannerOfArticulation.Click, false)
+      // createConsonant('ǀ', 'dental click', PlaceOfArticulation.Dental, MannerOfArticulation.Click, false)
     ],
     [PlaceOfArticulation.Alveolar]: [
-      createConsonant('ǃ', 'alveolar click', PlaceOfArticulation.Alveolar, MannerOfArticulation.Click, false),
-      createConsonant('ǁ', 'alveolar lateral click', PlaceOfArticulation.Alveolar, MannerOfArticulation.Click, false)
+      // createConsonant('ǃ', 'alveolar click', PlaceOfArticulation.Alveolar, MannerOfArticulation.Click, false),
+      // createConsonant('ǁ', 'alveolar lateral click', PlaceOfArticulation.Alveolar, MannerOfArticulation.Click, false)
     ],
     [PlaceOfArticulation.Palatal]: [
-      createConsonant('ǂ', 'palatal click', PlaceOfArticulation.Palatal, MannerOfArticulation.Click, false)
+      // createConsonant('ǂ', 'palatal click', PlaceOfArticulation.Palatal, MannerOfArticulation.Click, false)
     ],
     // Empty placeholders for other places
     [PlaceOfArticulation.Labiodental]: [],
@@ -293,19 +293,19 @@ export const consonantChart: Record<MannerOfArticulation, Record<PlaceOfArticula
   },
   [MannerOfArticulation.Implosive]: {
     [PlaceOfArticulation.Bilabial]: [
-      createConsonant('ɓ', 'bilabial implosive', PlaceOfArticulation.Bilabial, MannerOfArticulation.Implosive, true)
+      // createConsonant('ɓ', 'bilabial implosive', PlaceOfArticulation.Bilabial, MannerOfArticulation.Implosive, true)
     ],
     [PlaceOfArticulation.Alveolar]: [
-      createConsonant('ɗ', 'alveolar implosive', PlaceOfArticulation.Alveolar, MannerOfArticulation.Implosive, true)
+      // createConsonant('ɗ', 'alveolar implosive', PlaceOfArticulation.Alveolar, MannerOfArticulation.Implosive, true)
     ],
     [PlaceOfArticulation.Palatal]: [
-      createConsonant('ʄ', 'palatal implosive', PlaceOfArticulation.Palatal, MannerOfArticulation.Implosive, true)
+      // createConsonant('ʄ', 'palatal implosive', PlaceOfArticulation.Palatal, MannerOfArticulation.Implosive, true)
     ],
     [PlaceOfArticulation.Velar]: [
-      createConsonant('ɠ', 'velar implosive', PlaceOfArticulation.Velar, MannerOfArticulation.Implosive, true)
+      // createConsonant('ɠ', 'velar implosive', PlaceOfArticulation.Velar, MannerOfArticulation.Implosive, true)
     ],
     [PlaceOfArticulation.Uvular]: [
-      createConsonant('ʛ', 'uvular implosive', PlaceOfArticulation.Uvular, MannerOfArticulation.Implosive, true)
+      // createConsonant('ʛ', 'uvular implosive', PlaceOfArticulation.Uvular, MannerOfArticulation.Implosive, true)
     ],
     // Empty placeholders for other places
     [PlaceOfArticulation.Labiodental]: [],
@@ -317,14 +317,14 @@ export const consonantChart: Record<MannerOfArticulation, Record<PlaceOfArticula
   },
   [MannerOfArticulation.Ejective]: {
     [PlaceOfArticulation.Bilabial]: [
-      createConsonant('pʼ', 'bilabial ejective', PlaceOfArticulation.Bilabial, MannerOfArticulation.Ejective, false)
+      // createConsonant('pʼ', 'bilabial ejective', PlaceOfArticulation.Bilabial, MannerOfArticulation.Ejective, false)
     ],
     [PlaceOfArticulation.Alveolar]: [
-      createConsonant('tʼ', 'alveolar ejective', PlaceOfArticulation.Alveolar, MannerOfArticulation.Ejective, false),
-      createConsonant('sʼ', 'alveolar ejective fricative', PlaceOfArticulation.Alveolar, MannerOfArticulation.Ejective, false)
+      // createConsonant('tʼ', 'alveolar ejective', PlaceOfArticulation.Alveolar, MannerOfArticulation.Ejective, false),
+      // createConsonant('sʼ', 'alveolar ejective fricative', PlaceOfArticulation.Alveolar, MannerOfArticulation.Ejective, false)
     ],
     [PlaceOfArticulation.Velar]: [
-      createConsonant('kʼ', 'velar ejective', PlaceOfArticulation.Velar, MannerOfArticulation.Ejective, false)
+      // createConsonant('kʼ', 'velar ejective', PlaceOfArticulation.Velar, MannerOfArticulation.Ejective, false)
     ],
     // Empty placeholders for other places
     [PlaceOfArticulation.Labiodental]: [],

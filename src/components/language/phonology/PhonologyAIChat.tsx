@@ -26,6 +26,8 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
     },
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,30 +45,69 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
     }
   }, []);
 
-  const suggestPhonemes = (input: string): string[] => {
-    // This is a placeholder function that would be replaced with actual LangChain logic
-    // For now, we'll just simulate some basic responses based on keywords
+  // Convert our message format to the format expected by the API
+  const formatMessagesForAPI = (messages: Message[]) => {
+    return messages
+      .filter(msg => msg.id !== '1') // Skip the initial greeting
+      .map(msg => ({
+        role: msg.sender,
+        content: msg.text
+      }));
+  };
+
+  // Send message to AI and get response
+  const processMessageWithAI = async (message: string) => {
+    setIsLoading(true);
+    setError(null);
     
-    // Convert input to lowercase for easier matching
-    const lowercaseInput = input.toLowerCase();
-    
-    if (lowercaseInput.includes('romantic') || lowercaseInput.includes('romance') || lowercaseInput.includes('latin')) {
-      return ['p', 'b', 't', 'd', 'k', 'g', 'm', 'n', 'f', 'v', 's', 'z', 'r', 'l', 'a', 'e', 'i', 'o', 'u'];
-    } else if (lowercaseInput.includes('germanic') || lowercaseInput.includes('german') || lowercaseInput.includes('norse')) {
-      return ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'h', 'r', 'l', 'm', 'n', 'j', 'w', 'a', 'e', 'i', 'o', 'u', 'y'];
-    } else if (lowercaseInput.includes('slavic') || lowercaseInput.includes('russian') || lowercaseInput.includes('polish')) {
-      return ['p', 'b', 't', 'd', 'k', 'g', 'f', 'v', 's', 'z', 'ʃ', 'ʒ', 'ts', 'tʃ', 'm', 'n', 'r', 'l', 'j', 'a', 'e', 'i', 'o', 'u', 'ɨ'];
-    } else if (lowercaseInput.includes('japanese') || lowercaseInput.includes('simple')) {
-      return ['p', 'b', 't', 'd', 'k', 'g', 's', 'z', 'h', 'm', 'n', 'r', 'w', 'j', 'a', 'e', 'i', 'o', 'u'];
-    } else if (lowercaseInput.includes('complex') || lowercaseInput.includes('difficult') || lowercaseInput.includes('unique')) {
-      return ['p', 'b', 't', 'd', 'k', 'g', 'q', 'ʔ', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'ʒ', 'x', 'ɣ', 'h', 'm', 'n', 'ŋ', 'r', 'l', 'j', 'w', 'ts', 'dz', 'tʃ', 'dʒ', 'a', 'e', 'i', 'o', 'u', 'y', 'ø', 'æ', 'ɑ'];
-    } else if (lowercaseInput.includes('clicks') || lowercaseInput.includes('african')) {
-      return ['p', 't', 'k', 'b', 'd', 'g', 'm', 'n', 'ŋ', 'f', 's', 'h', 'ǀ', 'ǃ', 'ǂ', 'ǁ', 'a', 'e', 'i', 'o', 'u'];
-    } else if (lowercaseInput.includes('tonal') || lowercaseInput.includes('chinese') || lowercaseInput.includes('asian')) {
-      return ['p', 't', 'k', 'b', 'd', 'g', 'm', 'n', 'ŋ', 'f', 's', 'ʃ', 'h', 'l', 'j', 'w', 'a', 'e', 'i', 'o', 'u'];
-    } else {
-      // Default suggestion for when no specific keywords are found
-      return ['p', 't', 'k', 'm', 'n', 's', 'l', 'r', 'w', 'j', 'a', 'e', 'i', 'o', 'u'];
+    try {
+      // Only format actual messages, not the initial greeting
+      const historyForAPI = formatMessagesForAPI(messages);
+      
+      const response = await fetch('/api/phonology-ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          history: historyForAPI,
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Add AI response to messages
+      const aiResponse = data.text;
+      const suggestedPhonemes = data.suggestedPhonemes || [];
+      
+      // Create a properly formatted AI message
+      const aiMessage: Message = {
+        id: Date.now().toString(),
+        text: aiResponse,
+        sender: 'ai',
+        timestamp: new Date(),
+        suggestedPhonemes: suggestedPhonemes,
+      };
+      
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (err) {
+      console.error('Failed to process message with AI:', err);
+      setError('Failed to get AI response. Please try again later.');
+      
+      // Add error message as AI response
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        text: 'Sorry, I encountered an error processing your request.',
+        sender: 'ai',
+        timestamp: new Date(),
+      }]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,40 +117,24 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle message submission
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
-
-    // Add user message
-    const userMessage: Message = {
+    
+    if (!inputValue.trim() || isLoading) return;
+    
+    // Add user message to chat
+    const userMessage = inputValue.trim();
+    setMessages(prev => [...prev, {
       id: Date.now().toString(),
-      text: inputValue,
+      text: userMessage,
       sender: 'user',
       timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, userMessage]);
+    }]);
     setInputValue('');
-
-    // Generate suggested phonemes based on user input
-    const suggestedPhonemes = suggestPhonemes(inputValue);
-
-    // Generate AI response
-    setTimeout(() => {
-      let responseText = "I'll help you create a language with those characteristics. ";
-      
-      if (suggestedPhonemes.length > 0) {
-        responseText += "Based on your description, I suggest these phonemes:";
-      }
-      
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: responseText,
-        sender: 'ai',
-        timestamp: new Date(),
-        suggestedPhonemes: suggestedPhonemes
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-    }, 1000);
+    
+    // Process with AI
+    await processMessageWithAI(userMessage);
   };
 
   return (
@@ -157,6 +182,31 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
             )}
           </div>
         ))}
+        
+        {/* Loading indicator */}
+        {isLoading && (
+          <div className="flex justify-center py-2">
+            <div className="animate-pulse flex space-x-2">
+              <div className="h-2 w-2 bg-gray-400 rounded-full"></div>
+              <div className="h-2 w-2 bg-gray-400 rounded-full"></div>
+              <div className="h-2 w-2 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+        )}
+        
+        {/* Error message */}
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+            <p className="text-sm">{error}</p>
+            <button 
+              onClick={() => setError(null)}
+              className="mt-2 text-xs underline"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+        
         <div ref={messagesEndRef} />
       </div>
 
@@ -173,11 +223,14 @@ export default function PhonologyAIChat({ onSelectPhoneme, className = '' }: Pho
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Describe your language..."
             className="flex-1 border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            disabled={isLoading}
           />
           <button
             type="submit"
-            className="bg-teal-500 text-white rounded-r-md px-4 py-2 hover:bg-teal-600"
-            disabled={!inputValue.trim()}
+            className={`${
+              isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600'
+            } text-white rounded-r-md px-4 py-2 transition-colors`}
+            disabled={!inputValue.trim() || isLoading}
           >
             <PaperAirplaneIcon className="h-5 w-5" />
           </button>

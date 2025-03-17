@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { getAllConsonants, getAllVowels } from '@/lib/phonology/ipaData';
 import { getAudioUrl } from '@/lib/phonology/audioUtils';
 import { IpaSymbol } from '@/types/phonology';
@@ -10,21 +10,63 @@ interface PhonemeSelectorProps {
   onPhonemeSelectionChange?: (consonants: string[], vowels: string[]) => void;
 }
 
-export default function PhonemeSelector({ 
+// Define the handle interface for imperative methods
+export interface PhonemeSelectorHandle {
+  togglePhoneme: (symbol: string) => void;
+}
+
+// Convert the component to use forwardRef
+const PhonemeSelector = forwardRef<PhonemeSelectorHandle, PhonemeSelectorProps>(({ 
   initialConsonants = [], 
   initialVowels = [],
   onPhonemeSelectionChange 
-}: PhonemeSelectorProps) {
+}, ref) => {
+  // State for tracking selected phonemes
+  const [selectedConsonants, setSelectedConsonants] = useState<string[]>(initialConsonants);
+  const [selectedVowels, setSelectedVowels] = useState<string[]>(initialVowels);
+  
   // Get all available phonemes
   const allConsonants = getAllConsonants();
   const allVowels = getAllVowels();
   
-  // This component will handle server-side rendering of the phoneme selector UI
-  // Client-side interactions will be handled by client components or JavaScript
+  // Audio feedback state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [currentPhoneme, setCurrentPhoneme] = useState<string | null>(null);
   
-  // Helper function to determine if a phoneme is initially selected
-  const isSelectedConsonant = (symbol: string) => initialConsonants.includes(symbol);
-  const isSelectedVowel = (symbol: string) => initialVowels.includes(symbol);
+  // Implement useImperativeHandle to expose methods to parent components
+  useImperativeHandle(ref, () => ({
+    togglePhoneme: (symbol: string) => {
+      // Determine if it's a consonant or vowel
+      const isVowel = allVowels.some(v => v.symbol === symbol);
+      const isConsonant = allConsonants.some(c => c.symbol === symbol);
+      
+      if (isVowel) {
+        if (selectedVowels.includes(symbol)) {
+          setSelectedVowels(prev => prev.filter(v => v !== symbol));
+        } else {
+          setSelectedVowels(prev => [...prev, symbol]);
+        }
+      } else if (isConsonant) {
+        if (selectedConsonants.includes(symbol)) {
+          setSelectedConsonants(prev => prev.filter(c => c !== symbol));
+        } else {
+          setSelectedConsonants(prev => [...prev, symbol]);
+        }
+      }
+    }
+  }));
+  
+  // Effect to notify parent component of changes
+  useEffect(() => {
+    if (onPhonemeSelectionChange) {
+      onPhonemeSelectionChange(selectedConsonants, selectedVowels);
+    }
+  }, [selectedConsonants, selectedVowels, onPhonemeSelectionChange]);
+  
+  // Helper function to determine if a phoneme is selected
+  const isSelectedConsonant = (symbol: string) => selectedConsonants.includes(symbol);
+  const isSelectedVowel = (symbol: string) => selectedVowels.includes(symbol);
   
   // Render a consonant cell
   const renderConsonantCell = (phoneme: IpaSymbol) => {
@@ -136,7 +178,7 @@ export default function PhonemeSelector({
       
       {/* Hidden audio element for client-side JavaScript to use */}
       <audio id="phoneme-audio" className="hidden">
-        <source id="phoneme-audio-source" src={undefined} type="audio/mpeg" />
+        <source id="phon text-gray-500ce" src={undefined} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       
@@ -174,16 +216,16 @@ export default function PhonemeSelector({
         <h3 className="text-lg font-semibold mb-2 text-gray-700">Selected Phonemes</h3>
         
         <div className="mb-4">
-          <h4 className="font-medium text-gray-700">Consonants ({initialConsonants.length})</h4>
+          <h4 className="font-medium text-gray-700">Consonants</h4>
           <p className="text-lg tracking-wide text-gray-500" id="selected-consonants">
-            {initialConsonants.join(' ')}
+            {selectedConsonants.join(' ')}
           </p>
         </div>
         
         <div>
-          <h4 className="font-medium text-gray-700">Vowels ({initialVowels.length})</h4>
+          <h4 className="font-medium text-gray-700">Vowels</h4>
           <p className="text-lg tracking-wide text-gray-500" id="selected-vowels">
-            {initialVowels.join(' ')}
+            {selectedVowels.join(' ')}
           </p>
         </div>
       </div>
@@ -193,8 +235,8 @@ export default function PhonemeSelector({
         __html: `
           document.addEventListener('DOMContentLoaded', function() {
             // Initialize selected phonemes
-            let selectedConsonants = new Set(${JSON.stringify(initialConsonants)});
-            let selectedVowels = new Set(${JSON.stringify(initialVowels)});
+            let selectedConsonants = new Set(${JSON.stringify(selectedConsonants)});
+            let selectedVowels = new Set(${JSON.stringify(selectedVowels)});
             
             // Set up audio element
             const audioElement = document.getElementById('phoneme-audio');
@@ -301,4 +343,6 @@ export default function PhonemeSelector({
       }} />
     </div>
   );
-} 
+});
+
+export default PhonemeSelector; 

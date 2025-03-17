@@ -18,31 +18,11 @@ export default function PhonologyPage() {
   
   // Handle phoneme selection from the AI chat
   const handleSelectPhoneme = useCallback((phoneme: string) => {
-    const isVowel = /[aeiouäëïöüɑɛɪʊɔæøyɨʉɯɤəɐɒœɶʌɜɞɘɵʊɵɪɪɔʊɛɪəʊɪə]/.test(phoneme);
-    
-    // Create new arrays to avoid directly modifying state
-    let newConsonants = [...selectedConsonants];
-    let newVowels = [...selectedVowels];
-    
-    if (isVowel) {
-      // If not already selected, add it
-      if (!newVowels.includes(phoneme)) {
-        newVowels.push(phoneme);
-        setSelectedVowels(newVowels);
-      }
-    } else {
-      // If not already selected, add it
-      if (!newConsonants.includes(phoneme)) {
-        newConsonants.push(phoneme);
-        setSelectedConsonants(newConsonants);
-      }
-    }
-    
-    // Update the PhonemeSelector component's state
+    // Use the imperative handle to toggle the phoneme
     if (phonemeSelectorRef.current) {
       phonemeSelectorRef.current.togglePhoneme(phoneme);
     }
-  }, [selectedConsonants, selectedVowels]);
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -75,8 +55,10 @@ export default function PhonologyPage() {
       {/* Phoneme Selector Section */}
       <div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <PhonemeSelector 
+          ref={phonemeSelectorRef}
           initialConsonants={['p', 't', 'k', 'm', 'n']} 
           initialVowels={['a', 'i', 'u']}
+          onPhonemeSelectionChange={handlePhonemeSelectionChange}
         />
       </div>
 
@@ -84,7 +66,10 @@ export default function PhonologyPage() {
       <div className="w-full">
         <h2 className="text-2xl font-semibold mb-4">Language Design Assistant</h2>
         <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
-          <PhonologyAIChat className="relative h-96 w-full rounded-none shadow-none border-0" />
+          <PhonologyAIChat 
+            className="relative h-96 w-full rounded-none shadow-none border-0" 
+            onSelectPhoneme={handleSelectPhoneme}
+          />
         </div>
       </div>
 
@@ -118,9 +103,6 @@ export default function PhonologyPage() {
           </ul>
         </div>
       </div>
-
     </div>
-
-    
   );
 } 
